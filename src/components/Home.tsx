@@ -1,10 +1,13 @@
-import React, { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { geoMercator, type GeoProjection } from "d3-geo";
-import { MetroStation } from "./MetroStation";
+// import { MetroStation } from "./MetroStation";
+// import { MetroConnection } from "./MetroConnection";
+import { csv } from 'd3-fetch';
 
 export default function Home() {
+  const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[] }[]>([]);
   const width = 800;
-  const height = 600;
+  const height = 700;
 
   const center = { lat: 19.432607, lon: -99.133208 };
 
@@ -36,11 +39,37 @@ export default function Home() {
 
   const handleMouseLeave = () => setMouseLatLon(null);
 
-  const stations = [
-    { name: "Zócalo/Tenochtitlan", lat: 19.432607, lon: -99.133208 },
-    { name: "Pino Suárez", lat: 19.425, lon: -99.132 },
-    { name: "Insurgentes", lat: 19.4231, lon: -99.1669 },
-  ];
+  // Extrae la información de las estaciones del metro
+  useEffect(() => {
+    csv('../../public/estaciones_coords.csv').then((data) => {
+      const parsed = data.map((d) => ({
+        name: d.estacion,
+        lat: +d.lat,
+        lon: +d.lng,
+        line: d.linea.split(",").map(l => l.trim()),
+      }));
+      setStations(parsed);
+    });
+  }, []);
+
+  // Asigna un color a las distintas líneas del metro
+  
+
+  const lineColors: Record<string, string> = {
+    "1": "#F04E98",
+    "2": "#005EB8",
+    "3": "#AF9800",
+    "4": "#6BBBAE",
+    "5": "#FFD100",
+    "6": "#DA291C",
+    "7": "#E87722",
+    "8": "#009A44",
+    "9": "#512F2E",
+    "A": "#981D97",
+    "B": "#B1B3B3",
+    "12": "#B0A32A",
+  };
+
 
   return (
     <div className="flex flex-col items-center">
@@ -52,10 +81,49 @@ export default function Home() {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <rect width={width} height={height} fill="#f5f5f5" />
+        {stations.map((s) => {
+          const coords = projection([s.lon, s.lat]);
+          if (!coords) return null;
+          
+          if (s.line.length > 1) {
+            return (
+              <circle
+                key={s.name}
+                cx={coords[0]}
+                cy={coords[1]}
+                r={4}
+                fill={'#fafafaff'}
+                stroke='#000000'
+                strokeWidth={2}
+              />
+            );
+          }
+
+          const color = lineColors[s.line[0]] || "#999";
+          return (
+            <circle
+              key={s.name}
+              cx={coords[0]}
+              cy={coords[1]}
+              r={4}
+              fill={color}
+            />
+          );
+        })}
+        {/* <rect width={width} height={height} fill="#f5f5f5" />
         {stations.map((s) => (
           <MetroStation key={s.name} {...s} projection={projection} />
         ))}
+
+        <MetroConnection
+          from={stations[1]}
+          to={stations[2]}
+          projection={projection}
+        />
+
+        {stations.map((s) => (
+          <MetroStation key={s.name} {...s} projection={projection} />
+        ))} */}
       </svg>
 
       <div className="text-sm mt-2 bg-white/80 rounded-lg px-3 py-1 shadow">
