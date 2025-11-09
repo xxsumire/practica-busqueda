@@ -29,7 +29,26 @@ export const MetroStation: React.FC<MetroStationProps> = ({
         
         {hover && (
           <g transform={`translate(${x + 10}, ${y - 10})`}>
-              <text>{name}</text>
+            <rect
+              rx={6}
+              ry={6}
+              x={-4}
+              y={-22}
+              width={name.length * 7.5}
+              height={24}
+              fill="white"
+              stroke="#374151"
+              opacity={0.95}
+            />
+            <text
+              x={2}
+              y={-6}
+              fontSize={12}
+              fontFamily="ui-sans-serif, system-ui"
+              fill="#111827"
+            >
+              {name}
+            </text>
           </g>
         )}
       <title>{`${name}\nLat: ${lat.toFixed(6)}\nLon: ${lon.toFixed(6)}`}</title>
