@@ -53,8 +53,6 @@ export default function Home() {
   }, []);
 
   // Asigna un color a las distintas líneas del metro
-  
-
   const lineColors: Record<string, string> = {
     "1": "#F04E98",
     "2": "#005EB8",
