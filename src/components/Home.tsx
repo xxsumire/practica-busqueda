@@ -78,6 +78,35 @@ export default function Home() {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
+        {/* Dibujo de las conexiones */}
+        {stations.flatMap((s) => 
+          s.connections.map((targetName) => {
+            const target = stations.find(t => t.name === targetName);
+            if (!target) return null;
+
+            const coords = projection([s.lon, s.lat]);
+            if (!coords) return null;
+
+            const targetCoords = projection([target.lon, target.lat]);
+            if (!targetCoords) return null;
+            const [x2, y2] = targetCoords;
+
+            return (
+              <line
+                key={`${s.name}-${target.name}`}
+                x1={coords[0]}
+                y1={coords[1]}
+                x2={x2}
+                y2={y2}
+                stroke="#9ca3af"
+                strokeWidth={2}
+                opacity={0.7}
+              />
+            );
+          })
+        )}
+
+        {/* Dibujo de las estaciones */}
         {stations.map((s) => {
           const coords = projection([s.lon, s.lat]);
           if (!coords) return null;
@@ -107,33 +136,6 @@ export default function Home() {
             />
           );
         })}
-
-        {stations.flatMap((s) => 
-          s.connections.map((targetName) => {
-            const target = stations.find(t => t.name === targetName);
-            if (!target) return null;
-
-            const coords = projection([s.lon, s.lat]);
-            if (!coords) return null;
-
-            const targetCoords = projection([target.lon, target.lat]);
-            if (!targetCoords) return null;
-            const [x2, y2] = targetCoords;
-
-            return (
-              <line
-                key={`${s.name}-${target.name}`}
-                x1={coords[0]}
-                y1={coords[1]}
-                x2={x2}
-                y2={y2}
-                stroke="#9ca3af"
-                strokeWidth={2}
-                opacity={0.7}
-              />
-            );
-          })
-        )}
       </svg>
 
       <div className="text-sm mt-2 bg-white/80 rounded-lg px-3 py-1 shadow">
