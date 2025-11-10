@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { geoMercator, type GeoProjection } from "d3-geo";
-// import { MetroStation } from "./MetroStation";
-// import { MetroConnection } from "./MetroConnection";
 import { csv } from 'd3-fetch';
 
 export default function Home() {
-  const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[] }[]>([]);
+  const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[]; connections: string[] }[]>([]);
   const width = 800;
   const height = 700;
 
@@ -46,7 +44,8 @@ export default function Home() {
         name: d.estacion,
         lat: +d.lat,
         lon: +d.lng,
-        line: d.linea.split(",").map(l => l.trim()),
+        line: d.linea.split(',').map(l => l.trim()),
+        connections: d.conexiones ? d.conexiones.split(',').map(c => c.trim()) : [],
       }));
       setStations(parsed);
     });
@@ -108,20 +107,33 @@ export default function Home() {
             />
           );
         })}
-        {/* <rect width={width} height={height} fill="#f5f5f5" />
-        {stations.map((s) => (
-          <MetroStation key={s.name} {...s} projection={projection} />
-        ))}
 
-        <MetroConnection
-          from={stations[1]}
-          to={stations[2]}
-          projection={projection}
-        />
+        {stations.flatMap((s) => 
+          s.connections.map((targetName) => {
+            const target = stations.find(t => t.name === targetName);
+            if (!target) return null;
 
-        {stations.map((s) => (
-          <MetroStation key={s.name} {...s} projection={projection} />
-        ))} */}
+            const coords = projection([s.lon, s.lat]);
+            if (!coords) return null;
+
+            const targetCoords = projection([target.lon, target.lat]);
+            if (!targetCoords) return null;
+            const [x2, y2] = targetCoords;
+
+            return (
+              <line
+                key={`${s.name}-${target.name}`}
+                x1={coords[0]}
+                y1={coords[1]}
+                x2={x2}
+                y2={y2}
+                stroke="#9ca3af"
+                strokeWidth={2}
+                opacity={0.7}
+              />
+            );
+          })
+        )}
       </svg>
 
       <div className="text-sm mt-2 bg-white/80 rounded-lg px-3 py-1 shadow">
