@@ -1,0 +1,102 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\setstretch{1.2}
+
+\title{Impacto de las Manifestaciones en el Recorrido del Metro de la CDMX}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+A continuación se presenta un texto en lenguaje formal que explica cómo las manifestaciones en el Sistema de Transporte Colectivo Metro (CDMX) pueden modificar el recorrido de una línea de metro, y al final se incluye además una propuesta heurística para calcular el impacto aproximado de tales alteraciones.
+
+\section*{Alteraciones de recorrido debido a manifestaciones}
+
+En la Ciudad de México, las manifestaciones sociales o bloqueos viales pueden tener un impacto directo en la operación de las líneas del Metro. La institución responsable, el Metro CDMX, ha publicado diversos avisos en los que informa el cierre temporal de estaciones o la suspensión parcial del servicio debido a concentraciones de personas. Por ejemplo:
+
+\begin{itemize}
+    \item El 23 de mayo de 2025 se notificó que debido a movilizaciones de la Coordinadora Nacional de Trabajadores de la Educación (CNTE) alrededor del aeropuerto, se suspendieron los servicios en las estaciones \textit{Boulevard Puerto Aéreo} de la Línea 1, \textit{Terminal Aérea} de la Línea 5 y \textit{Hangares} de la Línea 5 \cite{GuillermoOrtega}.
+    \item En otro caso, se informó que la estación \textit{Zócalo/Tenochtitlan} de la Línea 2 permaneció cerrada por manifestaciones en el centro histórico \cite{Gluc}.
+    \item En general, el Metro señala que en dichos casos se implementan operativos de seguridad, dosificación de usuarios, refuerzos en estaciones de correspondencia o rutas alternas para mitigar el efecto sobre la movilidad \cite{MetroCDMX}.
+\end{itemize}
+
+Dichas alteraciones pueden implicar varios efectos sobre el recorrido de una línea de metro:
+
+\begin{enumerate}
+    \item \textbf{Cierre de estaciones intermedias o terminales:} cuando una manifestación se concentra en la vía pública o acceso a una estación, el servicio puede suspenderse en esa estación (y a veces en estaciones adyacentes). Ello fuerza que los trenes no se detengan o que el tramo quede sin servicio.
+    \item \textbf{Suspensión o modificación del tramo operado:} si la manifestación afecta el acceso a la red o produce bloqueos en la infraestructura (vial lateral, andén, acceso peatonal), el sistema puede limitar el servicio a un sub-tramo de la línea. Por ejemplo, operar sólo desde la terminal hasta una estación de bloqueo.
+    \item \textbf{Desviaciones o marcha lenta:} aunque no haya cierre total, la presencia de vallas, fuerzas de seguridad, alta afluencia de peatones o contingentes puede obligar a reducir la velocidad o espaciar los trenes, generando mayor tiempo de recorrido y eventualmente la necesidad de tomar una ruta distinta o transbordar.
+    \item \textbf{Aumento de la afluencia en estaciones alternas:} como consecuencia del cierre o restricción de una estación, los usuarios se redirigen a estaciones colindantes o líneas de transbordo. Esto puede saturar otros puntos de la red y producir demoras adicionales.
+    \item \textbf{Recomendaciones y rutas alternas:} el operador divulga información para que los usuarios opten por estaciones diferentes o líneas distintas como alternativa al tramo afectado \cite{PoliticoMX}.
+\end{enumerate}
+
+Por ende, cuando ocurre una manifestación que afecta una zona de la ciudad, el recorrido habitual de una línea del Metro puede verse modificado de forma temporal —ya sea por no operarse uno o varios tramos, no detenerse en ciertas estaciones o reducir la velocidad/regularidad de los trenes.
+
+\section*{Propuesta heurística para estimar el impacto}
+
+Para estimar de forma rápida y aproximada cómo una manifestación puede alterar el recorrido de una línea de metro, se puede emplear una fórmula heurística sencilla basada en los siguientes parámetros:
+
+\begin{itemize}
+    \item $N_s$ = número de estaciones cerradas o sin operación dentro de la línea (o en el tramo afectado).
+    \item $T_a$ = tiempo promedio entre estaciones en condiciones normales (en minutos).
+    \item $V_r$ = factor de reducción de velocidad o de incremento del tiempo por estación debido al control de acceso, saturación, desviaciones, etc. (por ejemplo $1.2$ significa 20\% más lento).
+    \item $D_t$ = distancia (en número de estaciones) desde la estación de inicio hasta la estación de destino original o modificada.
+    \item $C_t$ = costo adicional en tiempo estimado para desvíos o transbordos obligatorios (en minutos).
+\end{itemize}
+
+Una estimación del \textbf{tiempo de recorrido modificado} $T_{\text{mod}}$ puede calcularse como:
+
+\[
+T_{\text{mod}} \approx (D_t - N_s) \times T_a \times V_r + C_t
+\]
+
+Donde:
+
+\begin{itemize}
+    \item Si una estación está cerrada (y no puede utilizarse), se resta del conteo de estaciones (asumiendo que se omite la parada), es decir que vale infinito.
+    \item El factor $V_r$ incorpora el efecto de marcha lenta, mayor aglomeración, dosificación de acceso, etc.
+    \item $C_t$ recoge el tiempo perdido adicional por cambiar de línea, caminar entre estaciones alternas o esperar otro tramo.
+\end{itemize}
+
+\textbf{Ejemplo ilustrativo:} Supongamos que normalmente el usuario realiza un recorrido de 10 estaciones, con un tiempo promedio entre estaciones de $T_a = 2$ minutos (por lo tanto, recorrido normal $\approx 20$ minutos). Ahora, debido a una manifestación, 2 estaciones del tramo están cerradas ($N_s = 2$), además hay marcha lenta estimada de 30\% ($V_r = 1.3$), y se estima que el tiempo adicional por desviación es $C_t = 5$ minutos. Entonces:
+
+\[
+T_{\text{mod}} \approx (10 - 2) \times 2 \times 1.3 + 5 = 8 \times 2.6 + 5 = 20.8 + 5 \approx 25.8\ \text{minutos}
+\]
+
+Por tanto, el viaje se alarga de unos 20 minutos a aproximadamente 26 minutos. Este tipo de estimación permite anticipar la magnitud del retraso o impacto en el recorrido ante una manifestación.
+
+\section*{Consideraciones finales}
+
+\begin{itemize}
+    \item Cada vez que se realiza una búsqueda de ruta, es necesario hacer una llamada a una API para comprobar si existe alguna manifestación y obtener las comunicaciones oficiales correspondientes.
+    \item Las manifestaciones no sólo afectan el servicio por estaciones cerradas: también pueden generar saturación en estaciones alternas, empeorar el flujo de correspondencias o modificar la demanda de otras líneas.
+\end{itemize}
+
+\begin{thebibliography}{9}
+
+\bibitem{GuillermoOrtega}
+Guillermo Ortega. \textit{Por manifestaciones, estas tres estaciones del Metro de la CDMX estarán cerradas el 23 de mayo}. Disponible en: \url{https://guillermoortega.com/pais/por-manifestaciones-estas-dos-estaciones-del-metro-de-la-cdmx-estaran-cerradas-el-23-de-mayo}
+
+\bibitem{Gluc}
+Gluc. \textit{Marchas HOY en CDMX 28 de mayo: líneas del Metro y Metrobús afectadas por manifestaciones}. Disponible en: \url{https://gluc.mx/sociedad/2025/05/28/marchas-hoy-en-cdmx-28-de-mayo-lineas-del-metro-y-metrobus-afectadas-por-manifestaciones-183347.html}
+
+\bibitem{MetroCDMX}
+Metro CDMX. \textit{El Metro opera sin contratiempos durante marchas en la CDMX}. Disponible en: \url{https://www.metro.cdmx.gob.mx/comunicacion/nota/el-metro-opera-sin-contratiempos-durante-marchas-en-la-cdmx}
+
+\bibitem{PoliticoMX}
+Político MX. \textit{Cierran estaciones del Metro por manifestaciones: estas son las vías alternas}. Disponible en: \url{https://politico.mx/2025/03/20/cierran-estaciones-del-metro-por-manifestaciones-estas-son-las-vias-alternas}
+
+\end{thebibliography}
+
+\end{document}
