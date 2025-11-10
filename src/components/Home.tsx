@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { geoMercator, type GeoProjection } from "d3-geo";
+import { useEffect, useMemo, useState } from 'react';
+import { geoMercator, type GeoProjection } from 'd3-geo';
 import { csv } from 'd3-fetch';
+import { HighlightedPath } from './HighlightedPathProps';
 
 export default function Home() {
   const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[]; connections: string[] }[]>([]);
+  const [path, setPath] = useState<string[]>([]);
+  
   const width = 800;
   const height = 700;
-
   const center = { lat: 19.432607, lon: -99.133208 };
 
   const projection: GeoProjection = useMemo(() => {
@@ -53,28 +55,31 @@ export default function Home() {
 
   // Asigna un color a las distintas líneas del metro
   const lineColors: Record<string, string> = {
-    "1": "#F04E98",
-    "2": "#005EB8",
-    "3": "#AF9800",
-    "4": "#6BBBAE",
-    "5": "#FFD100",
-    "6": "#DA291C",
-    "7": "#E87722",
-    "8": "#009A44",
-    "9": "#512F2E",
-    "A": "#981D97",
-    "B": "#B1B3B3",
-    "12": "#B0A32A",
+    '1': '#F04E98',
+    '2': '#005EB8',
+    '3': '#AF9800',
+    '4': '#6BBBAE',
+    '5': '#FFD100',
+    '6': '#DA291C',
+    '7': '#E87722',
+    '8': '#009A44',
+    '9': '#512F2E',
+    'A': '#981D97',
+    'B': '#B1B3B3',
+    '12': '#B0A32A',
   };
 
+  useEffect(() => {
+    setPath(['Politécnico', 'Instituto del Petróleo', 'Autobuses del Norte', 'La Raza', 'Misterios', 'Valle Gómez', 'Consulado', 'Canal del Norte', 'Morelos', 'Candelaria', 'Fray Servando', 'Jamaica', 'Santa Anita']);
+  }, []);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className='flex flex-col items-center'>
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        width="100%"
-        height="auto"
-        className="rounded-xl shadow-lg bg-white"
+        width='100%'
+        height='auto'
+        className='rounded-xl shadow-lg bg-white'
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -98,13 +103,15 @@ export default function Home() {
                 y1={coords[1]}
                 x2={x2}
                 y2={y2}
-                stroke="#9ca3af"
+                stroke='#9ca3af'
                 strokeWidth={2}
                 opacity={0.7}
               />
             );
           })
         )}
+
+        <HighlightedPath path={path} stations={stations} projection={projection} />
 
         {/* Dibujo de las estaciones */}
         {stations.map((s) => {
@@ -125,7 +132,7 @@ export default function Home() {
             );
           }
 
-          const color = lineColors[s.line[0]] || "#999";
+          const color = lineColors[s.line[0]] || '#999';
           return (
             <circle
               key={s.name}
@@ -138,10 +145,10 @@ export default function Home() {
         })}
       </svg>
 
-      <div className="text-sm mt-2 bg-white/80 rounded-lg px-3 py-1 shadow">
+      <div className='text-sm mt-2 bg-white/80 rounded-lg px-3 py-1 shadow'>
         {mouseLatLon
           ? `Cursor → Lat: ${mouseLatLon.lat.toFixed(6)} · Lon: ${mouseLatLon.lon.toFixed(6)}`
-          : "Mueve el mouse sobre el mapa"}
+          : 'Mueve el mouse sobre el mapa'}
       </div>
     </div>
   );

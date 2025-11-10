@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { GeoProjection } from "d3-geo";
+import type { GeoProjection } from 'd3-geo';
 
 interface MetroStationProps {
   name: string;
@@ -14,7 +14,7 @@ export const MetroStation: React.FC<MetroStationProps> = ({
   lat,
   lon,
   projection,
-  color = "#ef4444",
+  color = '#ef4444',
 }) => {
   const [x, y] = projection([lon, lat]) ?? [0, 0];
   const [hover, setHover] = useState(false);
@@ -25,7 +25,7 @@ export const MetroStation: React.FC<MetroStationProps> = ({
       onMouseLeave = {() => setHover(false)}
     >
       <circle cx={x} cy={y} r={6} fill={color} opacity={0.9} />
-      <circle cx={x} cy={y} r={6} fill="none" stroke="#111827" strokeWidth={1} />
+      <circle cx={x} cy={y} r={6} fill='none' stroke='#111827' strokeWidth={1} />
         
         {hover && (
           <g transform={`translate(${x + 10}, ${y - 10})`}>
@@ -36,16 +36,16 @@ export const MetroStation: React.FC<MetroStationProps> = ({
               y={-22}
               width={name.length * 7.5}
               height={24}
-              fill="white"
-              stroke="#374151"
+              fill='white'
+              stroke='#374151'
               opacity={0.95}
             />
             <text
               x={2}
               y={-6}
               fontSize={12}
-              fontFamily="ui-sans-serif, system-ui"
-              fill="#111827"
+              fontFamily='ui-sans-serif, system-ui'
+              fill='#111827'
             >
               {name}
             </text>

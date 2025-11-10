@@ -1,4 +1,4 @@
-import { type GeoProjection } from "d3-geo";
+import { type GeoProjection } from 'd3-geo';
 
 interface MetroConnectionProps {
   from: { lat: number; lon: number };
@@ -16,9 +16,9 @@ export function MetroConnection({ from, to, projection }: MetroConnectionProps) 
       y1={y1}
       x2={x2}
       y2={y2}
-      stroke="#e63838ff"
+      stroke='#e63838ff'
       strokeWidth={3}
-      strokeLinecap="round"
+      strokeLinecap='round'
     />
   );
 }
