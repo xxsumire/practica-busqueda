@@ -3,6 +3,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #09050500; */
-  padding: 15px;
+  background: #F77F00;
+  padding: 15px 7%;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  display: inline-block;
+  margin: 10px 5px;
+  cursor: pointer;
+}
+
+li a {
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+}
+
+li a:hover {
+  color: #000;
 }

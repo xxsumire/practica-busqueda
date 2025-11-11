@@ -1,12 +1,14 @@
 import '../styles/Navbar.css';
-import logo_graph from '../assets/graph_icon.svg';
+import TrainIcon from '@mui/icons-material/Train';
 
 export default function Navbar () {
   return (
     <div className='navbar'>
-      <img src={ logo_graph } alt='logo_graph' className='logo'/>
+      <TrainIcon style={{color: '#fff', fontSize: 40}}/>
       <ul>
-        <li>Home</li>
+        <li>
+          <a className='active' href='index.html'>Home</a>
+        </li>
       </ul>
     </div>
   );
