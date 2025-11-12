@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { geoMercator, type GeoProjection } from 'd3-geo';
 import { csv } from 'd3-fetch';
 import { HighlightedPath } from './HighlightedPathProps';
+import { MetroStation } from './MetroStation';
 
 export default function Home() {
   const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[]; connections: string[] }[]>([]);
@@ -53,7 +54,6 @@ export default function Home() {
     });
   }, []);
 
-  // Asigna un color a las distintas líneas del metro
   const lineColors: Record<string, string> = {
     '1': '#F04E98',
     '2': '#005EB8',
@@ -115,31 +115,22 @@ export default function Home() {
 
         {/* Dibujo de las estaciones */}
         {stations.map((s) => {
-          const coords = projection([s.lon, s.lat]);
-          if (!coords) return null;
-          
-          if (s.line.length > 1) {
-            return (
-              <circle
-                key={s.name}
-                cx={coords[0]}
-                cy={coords[1]}
-                r={4}
-                fill={'#fafafaff'}
-                stroke='#000000'
-                strokeWidth={2}
-              />
-            );
-          }
+          const color = s.line.length > 1 
+            ? '#fafafaff' 
+            : lineColors[s.line[0]] || '#999';
 
-          const color = lineColors[s.line[0]] || '#999';
+          const stroke = s.line.length > 1 
+            ? '#000' 
+            : lineColors[s.line[0]];
           return (
-            <circle
+            <MetroStation
               key={s.name}
-              cx={coords[0]}
-              cy={coords[1]}
-              r={4}
-              fill={color}
+              name={s.name}
+              lat={s.lat}
+              lon={s.lon}
+              projection={projection}
+              color={color}
+              stroke={stroke}
             />
           );
         })}
