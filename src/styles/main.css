@@ -6,10 +6,34 @@
 
 :root {
   --font-family: 'Roboto', sans-serif;
+
+  --font-family-prueba: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+
   --color-bg: #fff;
+  --color-text-black: #2B2B2B;
+
+  --color-oro: #E3CC86;
+  --color-rojo: #A14444;
+  --color-button-default-border: #5C6F6D;
+  --color-button-default-background: #A8BFBC;
+
+  --color-selected-item: #BEE7EF;
+
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: var(--font-family-prueba);
   background-color: var(--color-bg);
+}
+
+.relative {
+  position: relative;
+  width: 100%;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }

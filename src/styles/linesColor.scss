@@ -1,0 +1,29 @@
+@use "sass:map";
+
+$line-colors: (
+    '1': ( bg: #F04E98, clr: #F6F6F6 ),
+    '2': ( bg: #005EB8, clr: #F6F6F6 ),
+    '3': ( bg: #AF9800, clr: #2B2B2B ),
+    '4': ( bg: #6BBBAE, clr: #2B2B2B ),
+    '5': ( bg: #FFD100, clr: #2B2B2B ),
+    '6': ( bg: #DA291C, clr: #2B2B2B ),
+    '7': ( bg: #E87722, clr: #F6F6F6 ),
+    '8': ( bg: #009A44, clr: #F6F6F6 ),
+    '9': ( bg: #512F2E, clr: #F6F6F6 ),
+    'A': ( bg: #981D97, clr: #F6F6F6 ),
+    'B': ( bg: #B1B3B3, clr: #2B2B2B ),
+    '12': ( bg: #B0A32A, clr: #2B2B2B ),
+);
+
+@each $line, $styles in $line-colors {
+    .linea-#{$line} {
+        background-color: map.get($styles, bg);
+        color: map.get($styles, clr);
+    }
+}
+
+.line-item {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+}
