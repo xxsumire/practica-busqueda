@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "server": "cd ./server && uvicorn main:app --reload --port 8000",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

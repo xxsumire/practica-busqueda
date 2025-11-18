@@ -6,14 +6,22 @@ import HomeIcon from '@mui/icons-material/Home';
 import PlaceIcon from '@mui/icons-material/Place';
 import ButtonCustom from './ui/ButtonCustom';
 import { useStationsContext } from './contexts/StationsContext/StationsContext';
+import { useApiContext } from './contexts/ApiContext/ApiContext';
 
 export default function SearchBar() {
 
+    const { get } = useApiContext() 
     const { data, setSalida, setLlegada } = useStationsContext();
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        data.salida = data.salida.toLowerCase().replace(/ /g, '_')
+        data.llegada = data.llegada.toLowerCase().replace(/ /g, '_')
+
+        const query = `estacion_origen=${data.salida}&estacion_destino=${data.llegada}`
+        const dataFromServer = await get(`/find-path/?${query}`);
+        
         console.log(`Salida: ${data.salida}\nLlegada: ${data.llegada}`)
-        alert(`Salida: ${data.salida}\nLlegada: ${data.llegada}`)
+        alert(`Salida: ${data.salida}\nLlegada: ${data.llegada}\n${dataFromServer}`)
     }
 
     return (
