@@ -3,8 +3,12 @@ import { geoMercator, type GeoProjection } from 'd3-geo';
 import { csv } from 'd3-fetch';
 import { HighlightedPath } from './HighlightedPathProps';
 import { MetroStation } from './MetroStation';
+import { useApiContext } from './contexts/ApiContext/ApiContext';
+import { convertStationName } from '../common/functions';
 
 export default function Home() {
+
+  const { status, lastResponse } = useApiContext()
   const [stations, setStations] = useState<{ name: string; lat: number; lon: number; line: string[]; connections: string[] }[]>([]);
   const [path, setPath] = useState<string[]>([]);
   
@@ -70,8 +74,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setPath(['Politécnico', 'Instituto del Petróleo', 'Autobuses del Norte', 'La Raza', 'Misterios', 'Valle Gómez', 'Consulado', 'Canal del Norte', 'Morelos', 'Candelaria', 'Fray Servando', 'Jamaica', 'Santa Anita']);
-  }, []);
+    console.log(lastResponse)
+    // setPath(['Politécnico', 'Instituto del Petróleo', 'Autobuses del Norte', 'La Raza', 'Misterios', 'Valle Gómez', 'Consulado', 'Canal del Norte', 'Morelos', 'Candelaria', 'Fray Servando', 'Jamaica', 'Santa Anita']);
+    setPath(lastResponse.estaciones)
+  }, [lastResponse]);
 
   return (
     <div className='flex flex-col items-center'>
@@ -96,6 +102,8 @@ export default function Home() {
             if (!targetCoords) return null;
             const [x2, y2] = targetCoords;
 
+            // const lineColor: string = lineColors[target.line[0]]
+
             return (
               <line
                 key={`${s.name}-${target.name}`}
@@ -104,14 +112,24 @@ export default function Home() {
                 x2={x2}
                 y2={y2}
                 stroke='#9ca3af'
+                // stroke={lineColor}
                 strokeWidth={2}
-                opacity={0.7}
+                opacity={path !== null ? 0.3 : 0.7}
               />
             );
           })
         )}
 
-        <HighlightedPath path={path} stations={stations} projection={projection} />
+        {status === 0 && (
+          <HighlightedPath 
+            // path={path} 
+            // stations={stations} 
+            // projection={projection} 
+            path={path} 
+            stations={stations} 
+            projection={projection} 
+          />
+        )}
 
         {/* Dibujo de las estaciones */}
         {stations.map((s) => {
@@ -122,6 +140,9 @@ export default function Home() {
           const stroke = s.line.length > 1 
             ? '#000' 
             : lineColors[s.line[0]];
+
+          const check: string | undefined = path.find((p) => convertStationName(s.name) === p);
+
           return (
             <MetroStation
               key={s.name}
@@ -131,6 +152,7 @@ export default function Home() {
               projection={projection}
               color={color}
               stroke={stroke}
+              opacity={path.length !== 0 && !check ? 0.5 : 1}
             />
           );
         })}

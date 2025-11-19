@@ -6,7 +6,7 @@ const StationsContext = createContext<StationsContextInterface | null>(null);
 export const useStationsContext = () => {
     const context = useContext(StationsContext);
     if (!context) {
-        throw new Error('useRoomSettings must be used within a RoomSettingsProvider');
+        throw new Error('useStationsContext must be used within a StationsProvider');
     }
     return context;
 };

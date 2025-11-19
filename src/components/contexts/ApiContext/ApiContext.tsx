@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { 
     type ApiContextInterface, 
     type ResponseFromServer, 
@@ -19,7 +19,15 @@ export const useApiContext = () => {
 
 export const ApiProvider = ({ children }: { children: ReactNode }) => {
 
-    const [lastResponse, setLastResponse] = useState<DataFromServer | string | null>(null);
+    const [status, setStatus] = useState<number>(1)
+    const [lastResponse, setLastResponse] = useState<DataFromServer>({
+        estaciones: [],
+        pasos: [],
+        costo_total_minutos: 0,
+        distancia_total_km: 0,
+        numero_transbordos: 0
+    });
+    const [lastError, setLastError] = useState<string | null>(null);
     const url = "http://localhost:8000/api/v1";
     // const url_test = "http://localhost:8000/"
 
@@ -42,24 +50,41 @@ export const ApiProvider = ({ children }: { children: ReactNode }) => {
         }
         
         const res = await fetch(url + route, settings)
-        // const res = await fetch(url_test, settings)
-
         const data: ResponseFromServer = await res.json()
-        setLastResponse(data.data)
-        console.log(data)
+        setStatus(data.code)
 
         if (data.code == 0) {
+            console.log(data?.data)
+            setLastResponse(data?.data)
+            setLastError(null)
             return data;
         } else {
+            setLastError(data.error ?? "Generical Error")
             return null;
         }
     }
+
+    useEffect(() => {
+        return () => {
+            setStatus(1);
+            setLastResponse({
+                estaciones: [],
+                pasos: [],
+                costo_total_minutos: 0,
+                distancia_total_km: 0,
+                numero_transbordos: 0
+            });
+            setLastError(null);
+        };
+    }, [])
 
     return (
         <ApiContext.Provider value={{
             get: (r: string) => getFromServer(r, 'GET'), 
             post: (r: string) => getFromServer(r, 'POST'), 
             lastResponse, 
+            lastError,
+            status,
             url
         }} >
             {children}

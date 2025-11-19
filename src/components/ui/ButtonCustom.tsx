@@ -4,6 +4,7 @@ import "../../styles/ButtonCustom.css"
 import SearchIcon from '@mui/icons-material/Search'
 
 interface ButtonCustomInterface {
+    disabled?: boolean
     text: string
     type?: "default" | "primary" | "secondary" | "danger" 
     onClick?: () => void 
@@ -28,6 +29,7 @@ const setColor = (type: string, handler: (e: string) => void) => {
 }
 
 export default function ButtonCustom({
+    disabled = false,
     text,
     type = "default",
     onClick
@@ -37,13 +39,14 @@ export default function ButtonCustom({
 
     useEffect(() => {
         setColor(type, setInnerColor);
-    }, [])
+    }, [disabled])
 
     return (
         <div className='btn-custom-container'>
             <button
                 className={'button-custom ' + innerColor}
                 onClick={onClick}
+                disabled={disabled}
             >
                 <SearchIcon />
                 {text}

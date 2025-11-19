@@ -8,6 +8,7 @@ interface MetroStationProps {
   lat: number;
   lon: number;
   projection: GeoProjection;
+  opacity: number;
   color?: string;
   stroke?: string;
 }
@@ -18,7 +19,8 @@ export const MetroStation: React.FC<MetroStationProps> = ({
   lon,
   projection,
   color = '#ef4444',
-  stroke = '#ef4444'
+  stroke = '#ef4444',
+  opacity = 1
 }) => {
   const [x, y] = projection([lon, lat]) ?? [0, 0];
   const [hover, setHover] = useState(false);
@@ -34,6 +36,7 @@ export const MetroStation: React.FC<MetroStationProps> = ({
         onMouseEnter = {() => setHover(true)}
         onMouseLeave = {() => setHover(false)}
         onMouseMove={handleMouseMove}
+        opacity={opacity}
       >
         <circle cx={x} cy={y} r={3} fill={color} />
         <circle cx={x} cy={y} r={4} fill='none' stroke={stroke} strokeWidth={1} />    

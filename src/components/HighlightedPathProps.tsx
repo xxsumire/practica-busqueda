@@ -1,4 +1,5 @@
 import type { GeoProjection } from 'd3-geo';
+import { convertStationName } from '../common/functions';
 
 interface HighlightedPathProps {
   path: string[];
@@ -12,8 +13,8 @@ export function HighlightedPath({ path, stations, projection }: HighlightedPathP
   return (
     <>
       {path.slice(0, -1).map((name, i) => {
-        const from = stations.find((s) => s.name === name);
-        const to = stations.find((s) => s.name === path[i + 1]);
+        const from = stations.find((s) => convertStationName(s.name) === name);
+        const to = stations.find((s) => convertStationName(s.name) === path[i + 1]);
         if (!from || !to) return null;
 
         const fromCoords = projection([from.lon, from.lat]);
@@ -27,9 +28,9 @@ export function HighlightedPath({ path, stations, projection }: HighlightedPathP
             y1={fromCoords[1]}
             x2={toCoords[0]}
             y2={toCoords[1]}
-            stroke='red'
-            strokeWidth={4}
-            opacity={0.9}
+            stroke='black'
+            strokeWidth={2.5}
+            opacity={1}
           />
         );
       })}
