@@ -1,69 +1,91 @@
-# React + TypeScript + Vite
+# Práctica Búsqueda - Sistema de Rutas de Metro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Requisitos Previos
 
-Currently, two official plugins are available:
+- Node.js (v16 o superior)
+- Python (v3.8 o superior)
+- pip (gestor de paquetes de Python)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instalación
 
-## Expanding the ESLint configuration
+### 1. Clonar el repositorio
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <url-del-repositorio>
+cd practica-busqueda
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configurar el Backend (Python)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### Crear y activar entorno virtual
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**En Windows (PowerShell):**
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
 ```
+
+**En Windows (CMD):**
+```cmd
+python -m venv venv
+venv\Scripts\activate.bat
+```
+
+**En Linux/Mac:**
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+#### Instalar dependencias de Python
+
+```bash
+pip install -r server/bin/requirements.txt
+pip install fastapi uvicorn
+```
+
+### 3. Configurar el Frontend (Node.js)
+
+#### Instalar dependencias de Node
+
+```bash
+npm install
+```
+
+## Ejecución del Proyecto
+
+### Opción 1: Ejecutar Backend y Frontend por separado
+
+#### Terminal 1 - Backend (con entorno virtual activado):
+```bash
+npm run server
+```
+
+El servidor estará disponible en: `http://localhost:8000`
+
+#### Terminal 2 - Frontend:
+```bash
+npm run dev
+```
+
+El frontend estará disponible en: `http://localhost:5173`
+
+### Opción 2: Scripts disponibles
+
+- `npm run dev` - Inicia el servidor de desarrollo frontend
+- `npm run server` - Inicia el servidor backend
+- `npm run build` - Compila el proyecto para producción
+- `npm run preview` - Previsualiza la build de producción
+- `npm run lint` - Ejecuta el linter
+
+## Estructura del Proyecto
+
+- `/server` - Backend en Python con FastAPI
+- `/src` - Frontend en React con TypeScript
+- `/public` - Archivos estáticos (datos de estaciones)
+
+## Notas Importantes
+
+- Asegúrate de tener el entorno virtual activado antes de ejecutar el servidor backend
+- El backend debe estar ejecutándose antes de usar el frontend
+- Si cambias de terminal, recuerda activar nuevamente el entorno virtual con el comando correspondiente a tu sistema operativo
