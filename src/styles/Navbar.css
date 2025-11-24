@@ -2,29 +2,22 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #F77F00;
+  justify-content: flex-start;
+  background: white;
   padding: 15px 7%;
 }
 
-ul {
-  list-style: none;
-}
-
-ul li {
-  display: inline-block;
-  margin: 10px 5px;
+.logo-navbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
   cursor: pointer;
 }
 
-li a {
-  text-decoration: none;
-  font-size: 1.3rem;
+.logo-text {
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #fff;
-  transition: 0.3s ease-in-out;
-}
-
-li a:hover {
-  color: #000;
+  color: black;
+  font-family: 'Momo Trust Display', sans-serif;
 }
