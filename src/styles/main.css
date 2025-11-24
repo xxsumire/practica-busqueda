@@ -7,8 +7,6 @@
 :root {
   --font-family: 'Roboto', sans-serif;
 
-  --font-family-prueba: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
-
   --color-bg: #fff;
   --color-text-black: #2B2B2B;
 
@@ -22,7 +20,7 @@
 }
 
 body {
-  font-family: var(--font-family-prueba);
+  font-family: var(--font-family);
   background-color: var(--color-bg);
 }
 
@@ -37,7 +35,6 @@ body {
   justify-content: center;
   gap: 6px;
 }
-
 
 .section {
   display: flex;
@@ -362,19 +359,8 @@ input[type="checkbox"] {
 }
 
 .checkbox-wrapper .checked {
-  /* content: ""; */
-  /* position: absolute; */
-  /* left: 5px; */
-  /* top: 1px; */
-  /* width: 6px; */
-  /* height: 12px; */
-  /* width: 100%; */
-  /* height: 100%; */
   border-radius: 20px;
   background-color: var(--charcoal);
-  /* border: solid #4f46e5; */
-  /* border-width: 0 2px 2px 0; */
-  /* transform: rotate(45deg); */
 }
 
 .container {
