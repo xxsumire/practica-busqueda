@@ -486,7 +486,7 @@
     },
     "abierta": true
   },
-  "bosques_de_aragon": {
+  "bosque_de_aragon": {
     "lineas": [
       "B"
     ],
@@ -1385,7 +1385,7 @@
     },
     "conexiones": [
       {
-        "estacion": "bosques_de_aragon",
+        "estacion": "bosque_de_aragon",
         "distancia": 1.165,
         "linea": "B"
       },
@@ -5007,7 +5007,7 @@
     },
     "conexiones": [
       {
-        "estacion": "bosques_de_aragon",
+        "estacion": "bosque_de_aragon",
         "distancia": 0.784,
         "linea": "B"
       },
