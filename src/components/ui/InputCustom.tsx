@@ -107,6 +107,11 @@ export default function InputCustom({
                 setQuery(e.target.value);
                 setIsOpen(true);
             }}
+            slotProps={{
+              input: {
+                autoComplete: 'off',
+              },
+            }}
             className={`${innerStyle ?? ""} input-custom-textfield`}
         />
 

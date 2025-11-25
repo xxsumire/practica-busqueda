@@ -5,9 +5,9 @@ import '@fontsource/montserrat';
 const ThemeMaterialUI = createTheme({
   palette: {
     primary: {
-      main: '#ff6f00ff', 
-      dark: '#ca006b', 
-      light: '#ff66a1',
+      main: '#F77F00', 
+      dark: '#d97000ff', 
+      light: '#f9b164ff',
     },
     secondary: {
       main: '#489abb', // Azul Maya

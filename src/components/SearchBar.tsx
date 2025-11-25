@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import '../styles/SearchBar.css';
 import InputCustom from './ui/InputCustom';
-import ButtonCustom from './ui/ButtonCustom';
 import Result from './ui/Result';
 import { useStationsContext } from './contexts/StationsContext/StationsContext';
 import { useApiContext } from './contexts/ApiContext/ApiContext';
@@ -9,7 +8,7 @@ import { useNotification } from './contexts/NotificationContext/NotificationCont
 import { convertStationName } from '../common/functions';
 
 import { Route as RouteIcon } from '@mui/icons-material';
-import { Card, CardHeader, CardContent, Stack } from '@mui/material';
+import { Card, CardHeader, CardContent, Stack, Button } from '@mui/material';
 
 export default function SearchBar() {
 
@@ -52,7 +51,6 @@ export default function SearchBar() {
           avatar={
             <RouteIcon sx={{ color: 'orange' }} />
           }
-          sx={{ fontSize: '12rem' }}
         />
         <CardContent>
           <Stack direction={{ xs: 'column' }}>
@@ -66,14 +64,16 @@ export default function SearchBar() {
               labelInput='Estación de llegada'
               onChange={setLlegada}
             />
+            <Button 
+              variant='contained'
+              onClick={handleClick}
+              sx={{ color: 'white', fontWeight: '800', letterSpacing: '1px' }}
+              >
+                Buscar
+            </Button>
           </Stack>
         </CardContent>
       </Card>
-      <div className='inner'>
-        <div className='center'>
-            <ButtonCustom text='Busca' onClick={handleClick} />
-        </div>
-      </div>
       <div className='resultado-container'>
         <div className='resultado'>
           {status == 0 && (
