@@ -9,7 +9,7 @@ import DateTimeLabel from './ui/DateTimeLabel.tsx';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { Route as RouteIcon } from '@mui/icons-material';
-import { Card, CardHeader, CardContent, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
+import { Card, CardHeader, CardContent, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions, Checkbox, FormControlLabel } from '@mui/material';
 
 export default function SearchBar() {
 
@@ -59,9 +59,15 @@ export default function SearchBar() {
               labelInput='Estación de llegada'
               onChange={setLlegada}
             />
-            {/* Horal y día de salida */}
+            {/* Hora y día de salida */}
             <DateTimeLabel
               onChange={setFechaHora}
+            />
+            {/* Seleccionar lluvia */}
+            <FormControlLabel
+              className='form-control-box'
+              control={<Checkbox/>}
+              label='Lluvia'
             />
             <Button 
               variant='contained'
