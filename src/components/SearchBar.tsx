@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/SearchBar.css';
 import InputCustom from './ui/InputCustom';
 import Result from './ui/Result';
 import { useStationsContext } from './contexts/StationsContext/StationsContext';
 import { useApiContext } from './contexts/ApiContext/ApiContext';
-import { useNotification } from './contexts/NotificationContext/NotificationContext';
 import { convertStationName } from '../common/functions';
 
 import { Route as RouteIcon } from '@mui/icons-material';
-import { Card, CardHeader, CardContent, Stack, Button } from '@mui/material';
+import { Card, CardHeader, CardContent, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
 
 export default function SearchBar() {
 
-  const { showNotification, hideNotification } = useNotification()
-  const { status, lastError, lastResponse, get } = useApiContext() 
+  const { status, lastResponse, get } = useApiContext() 
   const { data, setSalida, setLlegada } = useStationsContext();
+  const [openErrorDialog, setOpenErrorDialog] = useState(false);
 
   const handleClick = async () => {
     data.salida = convertStationName(data.salida)
@@ -24,18 +23,12 @@ export default function SearchBar() {
     const dataFromServer = await get(`/find-path/?${query}`);
 
     if (dataFromServer === null) {
-      showNotification({
-        purpose: "alert",
-        type: "error",
-        title: "Estaciones no encontradas",
-        message: lastError,
-        buttons: [{
-          onClick: hideNotification,
-          text: "Cierra",
-          type: "error"
-        }]
-      })
+      setOpenErrorDialog(true);
     }
+  }
+
+  const handleClose = () => {
+    setOpenErrorDialog(false);
   }
 
   useEffect(() => {
@@ -73,6 +66,7 @@ export default function SearchBar() {
           </Stack>
         </CardContent>
       </Card>
+
       <div className='resultado-container'>
         <div className='resultado'>
           {status == 0 && (
@@ -85,6 +79,21 @@ export default function SearchBar() {
           )}
         </div>
       </div>
+
+      <Dialog
+        open={openErrorDialog}
+        onClose={handleClose}
+      >
+        <DialogTitle>
+          Estaciones no encontradas
+        </DialogTitle>
+        <DialogContent>
+          No se encontró una ruta entre las estaciones seleccionadas
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cerrar</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
