@@ -6,7 +6,32 @@
 - Python (v3.8 o superior)
 - pip (gestor de paquetes de Python)
 
-## Instalación
+## 🚀 Inicio Rápido (Recomendado)
+
+Usa los scripts automatizados para instalar y ejecutar el proyecto con un solo comando:
+
+### Windows (PowerShell):
+```powershell
+.\cicd\setup-and-run-windows.ps1
+```
+
+### Mac/Linux:
+```bash
+chmod +x cicd/setup-and-run-unix.sh
+./cicd/setup-and-run-unix.sh
+```
+
+Los scripts automáticamente:
+- ✅ Verifican requisitos previos
+- ✅ Crean y activan el entorno virtual
+- ✅ Instalan todas las dependencias
+- ✅ Ejecutan el proyecto
+
+**Ver más detalles en:** [`cicd/README.md`](cicd/README.md)
+
+---
+
+## Instalación Manual
 
 ### 1. Clonar el repositorio
 
@@ -52,7 +77,7 @@ pip install fastapi uvicorn
 npm install
 ```
 
-## Ejecución del Proyecto
+## Ejecución Manual del Proyecto
 
 ### Opción 1: Ejecutar Backend y Frontend por separado
 
