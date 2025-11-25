@@ -17,3 +17,12 @@
     border-radius: 10px;
     border: #C5C5C5;
 }
+
+.date-time-box {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}

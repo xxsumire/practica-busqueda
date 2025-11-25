@@ -5,6 +5,8 @@ import Result from './ui/Result';
 import { useStationsContext } from './contexts/StationsContext/StationsContext';
 import { useApiContext } from './contexts/ApiContext/ApiContext';
 import { convertStationName } from '../common/functions';
+import DateTimeLabel from './ui/DateTimeLabel.tsx';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { Route as RouteIcon } from '@mui/icons-material';
 import { Card, CardHeader, CardContent, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
@@ -14,6 +16,7 @@ export default function SearchBar() {
   const { status, lastResponse, get } = useApiContext() 
   const { data, setSalida, setLlegada } = useStationsContext();
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
+  const [, setFechaHora] = useState<Dayjs | null>(dayjs());
 
   const handleClick = async () => {
     data.salida = convertStationName(data.salida)
@@ -55,6 +58,10 @@ export default function SearchBar() {
             <InputCustom 
               labelInput='Estación de llegada'
               onChange={setLlegada}
+            />
+            {/* Horal y día de salida */}
+            <DateTimeLabel
+              onChange={setFechaHora}
             />
             <Button 
               variant='contained'

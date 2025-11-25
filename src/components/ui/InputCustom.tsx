@@ -94,25 +94,25 @@ export default function InputCustom({
     <div className='input-container'>
       <div ref={anchorRef} style={{ marginBottom: '30px' }}>
         <TextField
-            required
-            variant='outlined'
-            label={labelInput}
-            value={query}
-            placeholder='Busca una estación'
-            onFocus={() => {
-              setIsOpen(true);
-              setAnchorWidth(anchorRef.current?.offsetWidth || 0);
-            }}
-            onChange={(e) => {
-                setQuery(e.target.value);
-                setIsOpen(true);
-            }}
-            slotProps={{
-              input: {
-                autoComplete: 'off',
-              },
-            }}
-            className={`${innerStyle ?? ""} input-custom-textfield`}
+          required
+          variant='outlined'
+          label={labelInput}
+          value={query}
+          placeholder='Busca una estación'
+          onFocus={() => {
+            setIsOpen(true);
+            setAnchorWidth(anchorRef.current?.offsetWidth || 0);
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setIsOpen(true);
+          }}
+          slotProps={{
+            input: {
+              autoComplete: 'off',
+            },
+          }}
+          className={`${innerStyle ?? ""} input-custom-textfield`}
         />
 
         {isOpen && query && (
