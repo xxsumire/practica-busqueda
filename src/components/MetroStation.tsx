@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { GeoProjection } from 'd3-geo';
-// import { Chip } from '@mui/material';
 
 interface MetroStationProps {
   name: string;
@@ -61,7 +60,6 @@ export const MetroStation: React.FC<MetroStationProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            {/* <Chip label='prueba_name Filled'/> */}
             {name}
           </div>,
         document.body

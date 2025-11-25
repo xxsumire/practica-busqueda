@@ -16,15 +16,27 @@ export default function SearchBar() {
   const { status, lastResponse, get } = useApiContext() 
   const { data, setSalida, setLlegada } = useStationsContext();
   const [openErrorDialog, setOpenErrorDialog] = useState(false);
-  const [, setFechaHora] = useState<Dayjs | null>(dayjs());
+  const [fechaHora, setFechaHora] = useState<Dayjs | null>(dayjs());
+  const[lluvia, setLluvia] = useState(false);
 
   const handleClick = async () => {
-    data.salida = convertStationName(data.salida)
-    data.llegada = convertStationName(data.llegada)
+    const salida = convertStationName(data.salida)
+    const llegada = convertStationName(data.llegada)
+    const fecha = fechaHora ?? dayjs();
+    const diaViaje = fecha.toISOString();
 
-    const query = `estacion_origen=${data.salida}&estacion_destino=${data.llegada}`
-    const dataFromServer = await get(`/find-path/?${query}`);
+    const params = new URLSearchParams({
+      estacion_origen: salida,
+      estacion_destino: llegada,
+      dia_viaje: diaViaje,
+      lluvia: String(lluvia),
+    });
 
+    // const query = `estacion_origen=${data.salida}&estacion_destino=${data.llegada}`
+    // const dataFromServer = await get(`/find-path/?${query}`);
+    
+    const dataFromServer = await get(`/find-path/?${params.toString()}`);
+    
     if (dataFromServer === null) {
       setOpenErrorDialog(true);
     }
@@ -66,7 +78,12 @@ export default function SearchBar() {
             {/* Seleccionar lluvia */}
             <FormControlLabel
               className='form-control-box'
-              control={<Checkbox/>}
+              control={
+                        <Checkbox
+                          checked={lluvia}
+                          onChange={(e) => setLluvia(e.target.checked)}
+                        />
+                      }
               label='Lluvia'
             />
             <Button 

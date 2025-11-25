@@ -75,7 +75,6 @@ export default function Home() {
 
   useEffect(() => {
     console.log(lastResponse)
-    // setPath(['Politécnico', 'Instituto del Petróleo', 'Autobuses del Norte', 'La Raza', 'Misterios', 'Valle Gómez', 'Consulado', 'Canal del Norte', 'Morelos', 'Candelaria', 'Fray Servando', 'Jamaica', 'Santa Anita']);
     setPath(lastResponse.estaciones)
   }, [lastResponse]);
 

@@ -27,7 +27,6 @@ dist-ssr
 # server/
 **/tests/
 venv
-server
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
