@@ -46,7 +46,6 @@ export default function SearchBar() {
     <div className='sb-container'>
       <Card sx={{ marginLeft: '3%', marginRight: '3%', padding: '1%' }}>
         <CardHeader
-          className='header-search-box'
           title='Ingresa los datos'
           avatar={
             <RouteIcon sx={{ color: 'orange' }} />
@@ -89,4 +88,3 @@ export default function SearchBar() {
     </div>
   )
 }
-

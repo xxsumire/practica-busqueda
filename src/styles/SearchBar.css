@@ -1,7 +1,3 @@
-:root {
-    --font-size-icons: 30px;
-}
-
 .sb-container {
     width: 100%;
     padding-bottom: 20px;
@@ -12,22 +8,6 @@
     align-items: center;
 }
 
-.sb-container .inner {
-    width: 40%;
-}
-
-.icons {
-    font-size: var(--font-size-icons) !important;
-}
-
-.home-icon-color {
-    color: var(--color-oro);
-}
-
-.place-icon-color {
-    color: var(--color-rojo);
-}
-
 .resultado-container {
     width: 30%;
 }
@@ -36,13 +16,4 @@
     width: 100%;
     border-radius: 10px;
     border: #C5C5C5;
-}
-
-.text-field-box {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.header-search-box {
-    font-size: 1.3rem;
 }
