@@ -1,5 +1,3 @@
-import React from 'react'
-
 import "../../styles/Result.css"
 
 interface ResultInterface {

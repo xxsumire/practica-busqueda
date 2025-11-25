@@ -1,14 +1,15 @@
-import { useEffect } from 'react'
-import '../styles/SearchBar.css'
-import InputCustom from './ui/InputCustom'
-import { Home as HomeIcon, Place as PlaceIcon, Route as RouteIcon } from '@mui/icons-material';
+import { useEffect } from 'react';
+import '../styles/SearchBar.css';
+import InputCustom from './ui/InputCustom';
 import ButtonCustom from './ui/ButtonCustom';
+import Result from './ui/Result';
 import { useStationsContext } from './contexts/StationsContext/StationsContext';
 import { useApiContext } from './contexts/ApiContext/ApiContext';
 import { useNotification } from './contexts/NotificationContext/NotificationContext';
-import Result from './ui/Result';
 import { convertStationName } from '../common/functions';
-import { Card, CardHeader, CardContent, Typography } from '@mui/material';
+
+import { Route as RouteIcon } from '@mui/icons-material';
+import { Card, CardHeader, CardContent, Stack } from '@mui/material';
 
 export default function SearchBar() {
 
@@ -44,35 +45,31 @@ export default function SearchBar() {
 
   return (
     <div className='sb-container'>
-      <Card sx={{ marginLeft: '3%', marginRight: '3%' }}>
+      <Card sx={{ marginLeft: '3%', marginRight: '3%', padding: '1%' }}>
         <CardHeader
           className='header-search-box'
           title='Ingresa los datos'
           avatar={
             <RouteIcon sx={{ color: 'orange' }} />
           }
+          sx={{ fontSize: '12rem' }}
         />
         <CardContent>
-          <Typography>hola</Typography>
+          <Stack direction={{ xs: 'column' }}>
+            {/* Estación de salida*/}
+            <InputCustom 
+              labelInput='Estación de salida'
+              onChange={setSalida}
+            />
+            {/* Estación de llegada*/}
+            <InputCustom 
+              labelInput='Estación de llegada'
+              onChange={setLlegada}
+            />
+          </Stack>
         </CardContent>
       </Card>
       <div className='inner'>
-        <div className=''>
-          <InputCustom 
-            label={<>
-              <HomeIcon className='icons home-icon-color' />
-              Estación de salida
-            </>} 
-            onChange={setSalida}
-          />
-          <InputCustom 
-            label={<>
-              <PlaceIcon className='icons place-icon-color' />
-              Estación de llegada
-            </>} 
-            onChange={setLlegada}
-          />
-        </div>
         <div className='center'>
             <ButtonCustom text='Busca' onClick={handleClick} />
         </div>

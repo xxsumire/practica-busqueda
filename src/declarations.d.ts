@@ -4,3 +4,5 @@ declare module '*.svg' {
   export default content;
 }
 declare module '@fontsource/*';
+declare module '*.js';
+declare module '*.scss';

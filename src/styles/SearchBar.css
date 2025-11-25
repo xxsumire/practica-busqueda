@@ -37,3 +37,12 @@
     border-radius: 10px;
     border: #C5C5C5;
 }
+
+.text-field-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.header-search-box {
+    font-size: 1.3rem;
+}
