@@ -2,7 +2,7 @@ import '../../styles/SearchBar.css';
 import { Breadcrumbs, CardHeader } from '@mui/material';
 import { 
         ArrowForward as ArrowForwardIcon,
-        Subway as SubwayIcon
+        TurnSharpLeft as TurnSharpLeftIcon
        } from '@mui/icons-material';
 
 interface PathInterface {
@@ -22,7 +22,7 @@ export default function PathBox({ lineas }:PathInterface) {
       <CardHeader
         title='Recorrido'
         avatar={
-          <SubwayIcon sx={{color: 'orange'}}/>
+          <TurnSharpLeftIcon sx={{color: 'orange'}}/>
         }
       />
       <div className='lines-result-box'>

@@ -1,6 +1,7 @@
 import '../../styles/SearchBar.css'
 import StationBox from './StationBox';
 import PathBox from './PathBox';
+import StepsList from './StepList';
 import  { AccessTime as AccessTimeIcon,
           Subway as SubwayIcon,
           Navigation as NavigationIcon,
@@ -153,6 +154,9 @@ export default function Result({
         {/* Muestra las líneas que recorre */}
         <PathBox
           lineas={lineas}
+        />
+        <StepsList
+          pasos={pasos}
         />
       </Card>
     </div>
