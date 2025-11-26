@@ -5,8 +5,13 @@ import {
         TurnSharpLeft as TurnSharpLeftIcon
        } from '@mui/icons-material';
 
+type LineaUsada = {
+  linea: string
+  orden: number
+}
+
 interface PathInterface {
-  lineas?: string[]
+  lineas?: LineaUsada[]
 }
 
 export default function PathBox({ lineas }:PathInterface) {
@@ -29,11 +34,11 @@ export default function PathBox({ lineas }:PathInterface) {
         <Breadcrumbs
           separator={<ArrowForwardIcon fontSize='small'/>}
         >
-          {lineas?.map((linea, index) => {
-            const normalized = normalizeLinea(String(linea));
+          {lineas?.map((lineaObj, index) => {
+            const normalized = normalizeLinea(String(lineaObj.linea));
             return (
               <div 
-                key={`${linea}-${index}`}
+                key={`${lineaObj.linea}-${index}`}
                 className={`line-item linea-${normalized}`}
               >
                 {normalized}
