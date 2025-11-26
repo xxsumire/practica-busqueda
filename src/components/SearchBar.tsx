@@ -31,9 +31,6 @@ export default function SearchBar() {
       dia_viaje: diaViaje,
       lluvia: String(lluvia),
     });
-
-    // const query = `estacion_origen=${data.salida}&estacion_destino=${data.llegada}`
-    // const dataFromServer = await get(`/find-path/?${query}`);
     
     const dataFromServer = await get(`/find-path/?${params.toString()}`);
     
@@ -105,7 +102,7 @@ export default function SearchBar() {
             distancia={lastResponse?.distancia_total_km}
             lineas={lastResponse.lineas_utilizadas}
             transbordos={lastResponse.numero_transbordos}
-            origen={lastResponse.estaciones[0]}
+            pasos={lastResponse.pasos}
           />
         )}
       </div>

@@ -31,11 +31,10 @@
 
 .result-box-stations {
     border-left: 8px solid black;
-    min-height: 50px;
+    min-height: 10px;
     margin-bottom: 30px;
     margin-left: 3%;
     margin-right: 3%;
-    padding: 1%;
 }
 
 .lines-result-box {
@@ -51,4 +50,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.line-item-result-box {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-right: 10px;
 }

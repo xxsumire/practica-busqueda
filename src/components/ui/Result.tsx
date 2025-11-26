@@ -1,14 +1,26 @@
 import '../../styles/SearchBar.css'
+import StationBox from './StationBox';
 import  { AccessTime as AccessTimeIcon,
           Subway as SubwayIcon,
           ArrowForward as ArrowForwardIcon,
           Navigation as NavigationIcon,
-          TransferWithinAStation as TransferWithinAStationIcon
+          TransferWithinAStation as TransferWithinAStationIcon,
         } from '@mui/icons-material';
 import {  Card, CardHeader, CardContent, Stack, Table,
           TableBody, TableCell, TableContainer, TableRow, Paper,
           Breadcrumbs
        } from '@mui/material';
+
+type Paso = {
+  estacion_origen: string
+  nombre_origen: string
+  estacion_destino: string
+  nombre_destino: string
+  linea: string
+  es_transbordo: boolean
+  distancia_km: number
+  costo_segundos: number
+}
 
 interface ResultInterface {
   title?: string
@@ -16,7 +28,7 @@ interface ResultInterface {
   distancia?: number
   lineas?: string[]
   transbordos?: number
-  origen?: string
+  pasos?: Paso[]
 }
 
 export default function Result({
@@ -24,7 +36,7 @@ export default function Result({
   distancia,
   lineas,
   transbordos,
-  origen,
+  pasos,
 }: ResultInterface) {
 
   const normalizeLinea = (value: string) => {
@@ -34,6 +46,40 @@ export default function Result({
     return value;
   };
 
+  const origen = pasos && pasos.length > 0 ? pasos[0].nombre_origen : "—";
+  const origenId = pasos && pasos.length > 0 ? pasos[0].estacion_origen : null;
+
+  const lineasOrigen = origenId && pasos
+  ? Array.from(
+      new Set(
+        pasos
+          .filter(
+            (p) =>
+              p.estacion_origen === origenId ||
+              p.estacion_destino === origenId
+          )
+          .map((p) => normalizeLinea(p.linea))
+      )
+    )
+  : [];
+
+  const destino = pasos && pasos.length > 0 ? pasos[pasos.length - 1].nombre_destino : "—";
+  const destinoId = pasos && pasos.length > 0 ? pasos[pasos.length - 1].estacion_destino : null;
+
+  const lineasDestino = destinoId && pasos
+  ? Array.from(
+      new Set(
+        pasos
+          .filter(
+            (p) =>
+              p.estacion_origen === destinoId ||
+              p.estacion_destino === destinoId
+          )
+          .map((p) => normalizeLinea(p.linea))
+      )
+    )
+  : [];
+  
   return (
     <div className='resultado-container'>
       <Card sx={{ width: '100%', padding: '1%' }}>
@@ -45,7 +91,16 @@ export default function Result({
         />
         <CardContent>
           <div className='result-box-stations'>
-            {origen}
+            <StationBox
+              title='Origen'
+              station={origen}
+              lines={lineasOrigen}
+            />
+            <StationBox
+              title='Destino'
+              station={destino}
+              lines={lineasDestino}
+            />
           </div>
           <Stack direction={{ xs: 'column', sm: 'row'}}>
             <TableContainer component={Paper} variant='outlined'>
@@ -105,33 +160,6 @@ export default function Result({
           </div>
         </CardContent>
       </Card>
-
-    {/* <div className='left-align'>
-      <div className='title'>{title}</div>
-      <div className='resultado-container-inner space-between'>
-        <div className='center'>
-          {lineas?.map((e, index) => (
-            <>
-              <div 
-                key={index}
-                className={`line-item linea-${Number(e)}`}
-              >
-                {e}
-              </div>
-              {index < lineas.length - 1 && (
-                <div>
-                  {"\>"}
-                </div>
-              )}
-            </>
-          ))}
-        </div>
-        <div className='x-center'>
-          <div className='time'>{time?.toFixed(0)} min</div>
-          <div className='distancia'>{distancia?.toFixed(0)} Km</div>
-        </div>
-      </div>
-    </div> */}
     </div>
   )
 }
