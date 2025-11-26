@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 from typing import List, Optional
-from models.resultado_ruta import ResultadoRuta, PasoRuta
+from models.resultado_ruta import ResultadoRuta, PasoRuta, LineasUsadas
 from models.estacion_completa import LineaEnum
 
 class ResultadoRutaParsed(BaseModel):
@@ -10,7 +10,7 @@ class ResultadoRutaParsed(BaseModel):
     pasos: List[PasoRuta] = Field(default_factory=list)
     costo_total_minutos: float = 0.0
     distancia_total_km: float = 0.0
-    lineas_utilizadas: List[LineaEnum] = Field(default_factory=list)
+    lineas_utilizadas: List[LineasUsadas] = Field(default_factory=list)
     numero_transbordos: int = 0
 
 class ServerResponse(BaseModel):
