@@ -6,6 +6,7 @@ from models.estacion_completa import LineaEnum
 
 class ResultadoRutaParsed(BaseModel):
     estaciones: List[str] = Field(default_factory=list)
+    estaciones_originales: List[str] = Field(default_factory=list)
     pasos: List[PasoRuta] = Field(default_factory=list)
     costo_total_minutos: float = 0.0
     distancia_total_km: float = 0.0
