@@ -27,9 +27,10 @@ class NodoAEstrella:
         padre: Nodo padre en el camino
         distancia_acumulada: Distancia total acumulada en km
     """
-    def __init__(self, estacion: str, linea_actual: LineaEnum, g: float, h: float, 
+    def __init__(self, estacion: str, nombre_real: str, linea_actual: LineaEnum, g: float, h: float, 
                  padre: Optional['NodoAEstrella'] = None, distancia_acumulada: float = 0.0):
         self.estacion = estacion
+        self.nombre_real = nombre_real
         self.linea_actual = linea_actual
         self.g = g
         self.h = h
@@ -78,6 +79,7 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
     resultado.exito = True
     resultado.mensaje = "Ruta encontrada exitosamente"
     resultado.estaciones = [nodo.estacion for nodo in camino]
+    resultado.nombres_originales = [nodo.nombre_real for nodo in camino]
     resultado.costo_total_segundos = nodo_final.g
     resultado.distancia_total_km = nodo_final.distancia_acumulada
     
@@ -114,6 +116,8 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
             paso = PasoRuta(
                 estacion_origen=nodo_origen.estacion,
                 estacion_destino=nodo_destino.estacion,
+                nombre_origen=nodo_origen.nombre_real,
+                nombre_destino=nodo_destino.nombre_real,
                 linea=nodo_destino.linea_actual,
                 distancia_km=conexion.distancia,
                 costo_segundos=costo_paso,
@@ -198,7 +202,7 @@ def a_estrella(
         
         if coord_origen:
             h_inicial = heuristica(coord_origen, coord_destino, velocidad_metro_kmh)
-            nodo_inicial = NodoAEstrella(estacion_origen, linea, g=0.0, h=h_inicial)
+            nodo_inicial = NodoAEstrella(estacion_origen, est_origen.nombre_original, linea, g=0.0, h=h_inicial)
             heapq.heappush(abiertos, nodo_inicial)
     
     # Algoritmo A*
@@ -274,7 +278,8 @@ def a_estrella(
             
             # Crear nodo vecino y agregarlo a abiertos
             nodo_vecino = NodoAEstrella(
-                estacion_vecina, linea_conexion, g_vecino, h_vecino,
+                estacion_vecina, est_vecina.nombre_original,
+                linea_conexion, g_vecino, h_vecino,
                 padre=nodo_actual, distancia_acumulada=distancia_vecino
             )
             heapq.heappush(abiertos, nodo_vecino)

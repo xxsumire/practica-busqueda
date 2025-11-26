@@ -67,6 +67,7 @@ class EstacionCompleta(BaseModel):
     ubicacion: List[Ubicacion]
     conexiones: List[Conexion]
     afluencia_promedio: List[Afluencia]
+    nombre_original: str
     abierta: bool = True
 
     @classmethod
@@ -90,4 +91,5 @@ class EstacionCompleta(BaseModel):
             conexiones=conexiones,
             afluencia_promedio=afluencias,
             abierta=data.get("abierta", True),
+            nombre_original=data.get("nombre_original", "")
         )

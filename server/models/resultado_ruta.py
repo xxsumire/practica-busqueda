@@ -21,7 +21,9 @@ class PasoRuta(BaseModel):
         es_transbordo: Indica si este paso incluye un transbordo
     """
     estacion_origen: str
+    nombre_origen: str
     estacion_destino: str
+    nombre_destino: str
     linea: LineaEnum
     distancia_km: float
     costo_segundos: float
@@ -42,6 +44,7 @@ class ResultadoRuta(BaseModel):
         mensaje: Mensaje descriptivo sobre el resultado
     """
     estaciones: List[str] = Field(default_factory=list)
+    nombres_originales: List[str] = Field(default_factory=list)
     pasos: List[PasoRuta] = Field(default_factory=list)
     costo_total_segundos: float = 0.0
     distancia_total_km: float = 0.0
