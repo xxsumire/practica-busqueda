@@ -9,13 +9,11 @@
 }
 
 .resultado-container {
-    width: 30%;
-}
-
-.resultado-container .resultado {
     width: 100%;
-    border-radius: 10px;
-    border: #C5C5C5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5%;
 }
 
 .date-time-box {
@@ -29,4 +27,13 @@
 
 .form-control-box {
     margin-bottom: 30px;
+}
+
+.result-box-stations {
+    border-left: 8px solid black;
+    min-height: 50px;
+    margin-bottom: 30px;
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 1%;
 }

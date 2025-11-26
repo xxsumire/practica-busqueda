@@ -97,17 +97,17 @@ export default function SearchBar() {
         </CardContent>
       </Card>
 
+      {/* Container del resultado */}
       <div className='resultado-container'>
-        <div className='resultado'>
-          {status == 0 && (
-            <Result 
-              title="Resultado mejor encontrado:"
-              time={lastResponse.costo_total_minutos}
-              distancia={lastResponse?.distancia_total_km}
-              lineas={lastResponse.lineas_utilizadas}
-            />
-          )}
-        </div>
+        {status == 0 && (
+          <Result
+            time={lastResponse.costo_total_minutos}
+            distancia={lastResponse?.distancia_total_km}
+            lineas={lastResponse.lineas_utilizadas}
+            transbordos={lastResponse.numero_transbordos}
+            origen={lastResponse.estaciones[0]}
+          />
+        )}
       </div>
 
       <Dialog
