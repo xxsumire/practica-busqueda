@@ -972,7 +972,7 @@
         "afluencia_promedio": {
             "09": 35938
         },
-        "abierta": false,
+        "abierta": true,
         "nombre_original": "Chilpancingo"
     },
     "ciudad_azteca": {

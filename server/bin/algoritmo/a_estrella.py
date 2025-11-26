@@ -8,7 +8,7 @@ transbordos y afluencia de pasajeros.
 from typing import Dict, List, Optional, Tuple, Set
 import heapq
 from models.estacion_completa import EstacionCompleta, LineaEnum
-from models.resultado_ruta import ResultadoRuta, PasoRuta
+from models.resultado_ruta import ResultadoRuta, PasoRuta, LineasUsadas
 from bin.algoritmo.heuristica import heuristica
 from bin.algoritmo.costo_real import costo_real
 from bin.algoritmo.costo_total import costo_total
@@ -84,7 +84,8 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
     resultado.distancia_total_km = nodo_final.distancia_acumulada
     
     # Construir pasos detallados
-    lineas_usadas: Set[LineaEnum] = set()
+    lineas_usadas: Set[LineasUsadas] = set()
+    l_u: int = 0
     transbordos = 0
     
     for i in range(len(camino) - 1):
@@ -97,6 +98,7 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
         
         # Buscar conexión
         conexion = None
+
         for conn in est_origen.conexiones:
             if conn.estacion == nodo_destino.estacion and conn.linea == nodo_destino.linea_actual:
                 conexion = conn
@@ -110,8 +112,10 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
             es_transbordo = nodo_origen.linea_actual != nodo_destino.linea_actual
             if es_transbordo:
                 transbordos += 1
-            
-            lineas_usadas.add(nodo_destino.linea_actual)
+            if any(lu.linea == nodo_destino.linea_actual for lu in lineas_usadas) is False:
+                l_u += 1
+                lineas_usadas.add(
+                    LineasUsadas(linea=nodo_destino.linea_actual, orden=l_u))
             
             paso = PasoRuta(
                 estacion_origen=nodo_origen.estacion,
@@ -121,7 +125,8 @@ def reconstruir_ruta(nodo_final: NodoAEstrella,
                 linea=nodo_destino.linea_actual,
                 distancia_km=conexion.distancia,
                 costo_segundos=costo_paso,
-                es_transbordo=es_transbordo
+                es_transbordo=es_transbordo,
+                posicion_origen=i + 1
             )
             resultado.pasos.append(paso)
     

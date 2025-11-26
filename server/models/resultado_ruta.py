@@ -28,7 +28,15 @@ class PasoRuta(BaseModel):
     distancia_km: float
     costo_segundos: float
     es_transbordo: bool = False
+    posicion_origen: int = 0
 
+class LineasUsadas(BaseModel):
+    """Representa las líneas utilizadas en la ruta."""
+    linea: LineaEnum
+    orden: int
+    
+    def __hash__(self) -> int:
+        return hash((self.linea, self.orden))
 
 class ResultadoRuta(BaseModel):
     """Resultado completo de la búsqueda de ruta con A*.
@@ -49,7 +57,7 @@ class ResultadoRuta(BaseModel):
     costo_total_segundos: float = 0.0
     distancia_total_km: float = 0.0
     numero_transbordos: int = 0
-    lineas_utilizadas: List[LineaEnum] = Field(default_factory=list)
+    lineas_utilizadas: List[LineasUsadas] = Field(default_factory=list)
     exito: bool = False
     mensaje: str = ""
     
