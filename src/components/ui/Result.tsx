@@ -1,7 +1,9 @@
 import '../../styles/SearchBar.css'
 import  { AccessTime as AccessTimeIcon,
           Subway as SubwayIcon,
-          ArrowForward as ArrowForwardIcon
+          ArrowForward as ArrowForwardIcon,
+          Navigation as NavigationIcon,
+          TransferWithinAStation as TransferWithinAStationIcon
         } from '@mui/icons-material';
 import {  Card, CardHeader, CardContent, Stack, Table,
           TableBody, TableCell, TableContainer, TableRow, Paper,
@@ -62,6 +64,7 @@ export default function Result({
                   {/* Fila para distancia total */}
                   <TableRow>
                     <TableCell component='th' scope='row'>
+                      <NavigationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
                       Distancia total
                     </TableCell>
                     <TableCell align='right'>
@@ -71,6 +74,7 @@ export default function Result({
                   {/* Fila para número de transbordos */}
                   <TableRow>
                     <TableCell component='th' scope='row'>
+                      <TransferWithinAStationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
                       Número de transbordos
                     </TableCell>
                     <TableCell align='right'>
