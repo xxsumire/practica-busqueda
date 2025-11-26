@@ -1,14 +1,13 @@
 import '../../styles/SearchBar.css'
 import StationBox from './StationBox';
+import PathBox from './PathBox';
 import  { AccessTime as AccessTimeIcon,
           Subway as SubwayIcon,
-          ArrowForward as ArrowForwardIcon,
           Navigation as NavigationIcon,
           TransferWithinAStation as TransferWithinAStationIcon,
         } from '@mui/icons-material';
 import {  Card, CardHeader, CardContent, Stack, Table,
-          TableBody, TableCell, TableContainer, TableRow, Paper,
-          Breadcrumbs
+          TableBody, TableCell, TableContainer, TableRow, Paper
        } from '@mui/material';
 
 type Paso = {
@@ -90,75 +89,71 @@ export default function Result({
           }
         />
         <CardContent>
-          <div className='result-box-stations'>
-            <StationBox
-              title='Origen'
-              station={origen}
-              lines={lineasOrigen}
-            />
-            <StationBox
-              title='Destino'
-              station={destino}
-              lines={lineasDestino}
-            />
-          </div>
-          <Stack direction={{ xs: 'column', sm: 'row'}}>
-            <TableContainer component={Paper} variant='outlined'>
-              <Table size='small'>
-                <TableBody>
-                  {/* Fila para tiempo estimado */}
-                  <TableRow>
-                    <TableCell component='th' scope='row' sx={{display: 'flex', alignItems: 'center'}}>
-                      <AccessTimeIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
-                      Tiempo estimado
-                    </TableCell>
-                    <TableCell align='right'>
-                      {time !== undefined ? `${time.toFixed(0)} minutos` : '—'}
-                    </TableCell>
-                  </TableRow>
-                  {/* Fila para distancia total */}
-                  <TableRow>
-                    <TableCell component='th' scope='row'>
-                      <NavigationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
-                      Distancia total
-                    </TableCell>
-                    <TableCell align='right'>
-                      {distancia !== undefined ? `${distancia.toFixed(0)} km` : '—'}
-                    </TableCell>
-                  </TableRow>
-                  {/* Fila para número de transbordos */}
-                  <TableRow>
-                    <TableCell component='th' scope='row'>
-                      <TransferWithinAStationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
-                      Número de transbordos
-                    </TableCell>
-                    <TableCell align='right'>
-                      {transbordos !== undefined ? transbordos : '—'}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Stack>
-
-          <div className='lines-result-box'>
-            <Breadcrumbs
-              separator={<ArrowForwardIcon fontSize='small'/>}
+          <Stack direction={{ xs: 'column', md: 'row'}} sx={{ width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+            <div className='result-box-stations'>
+              <StationBox
+                title='Origen'
+                station={origen}
+                lines={lineasOrigen}
+              />
+              <StationBox
+                title='Destino'
+                station={destino}
+                lines={lineasDestino}
+              />
+            </div>
+            <Stack direction={{ xs: 'column', sm: 'row'}} 
+              sx={{ 
+                width: '100%'
+              }}
             >
-              {lineas?.map((linea, index) => {
-                const normalized = normalizeLinea(String(linea));
-                return (
-                  <div 
-                    key={`${linea}-${index}`}
-                    className={`line-item linea-${normalized}`}
-                  >
-                    {normalized}
-                  </div>
-                );
-              })}
-            </Breadcrumbs>
-          </div>
+              <TableContainer 
+                component={Paper} 
+                variant='outlined'
+                sx={{ height: 'fit-content' }}
+                >
+                <Table size='small'>
+                  <TableBody>
+                    {/* Fila para tiempo estimado */}
+                    <TableRow>
+                      <TableCell component='th' scope='row' sx={{display: 'flex', alignItems: 'center'}}>
+                        <AccessTimeIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
+                        Tiempo estimado
+                      </TableCell>
+                      <TableCell align='right'>
+                        {time !== undefined ? `${time.toFixed(0)} minutos` : '—'}
+                      </TableCell>
+                    </TableRow>
+                    {/* Fila para distancia total */}
+                    <TableRow>
+                      <TableCell component='th' scope='row'>
+                        <NavigationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
+                        Distancia total
+                      </TableCell>
+                      <TableCell align='right'>
+                        {distancia !== undefined ? `${distancia.toFixed(0)} km` : '—'}
+                      </TableCell>
+                    </TableRow>
+                    {/* Fila para número de transbordos */}
+                    <TableRow>
+                      <TableCell component='th' scope='row'>
+                        <TransferWithinAStationIcon sx={{ fontSize: 20, verticalAlign: 'middle', mr: 1 }} />
+                        Número de transbordos
+                      </TableCell>
+                      <TableCell align='right'>
+                        {transbordos !== undefined ? transbordos : '—'}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Stack>
+          </Stack>
         </CardContent>
+        {/* Muestra las líneas que recorre */}
+        <PathBox
+          lineas={lineas}
+        />
       </Card>
     </div>
   )
