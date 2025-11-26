@@ -12,7 +12,6 @@ import {
 import {
   ExpandMore as ExpandMoreIcon,
   ExpandLess as ExpandLessIcon,
-  ArrowRightAlt as ArrowRightAltIcon
 } from '@mui/icons-material';
 
 type Paso = {
@@ -31,6 +30,8 @@ type Segment = {
   line: string;
   isTransbordo: boolean;
   children: string[];
+  totalDistance: number;
+  totalTime: number;
 }
 
 export default function StepsList({ pasos }: { pasos?: Paso[] }) {
@@ -50,6 +51,8 @@ export default function StepsList({ pasos }: { pasos?: Paso[] }) {
 
   pasos.forEach((station, index) => {
     const normalizeLine = normalizeLinea(station.linea);
+    const stepDistance = station.distancia_km;
+    const stepTime = station.costo_segundos / 60;
 
     if (index === 0) {
       current = {
@@ -57,6 +60,8 @@ export default function StepsList({ pasos }: { pasos?: Paso[] }) {
         line: normalizeLine,
         isTransbordo: false,
         children: [station.nombre_destino],
+        totalDistance: stepDistance,
+        totalTime: stepTime,
       };
       return;
     }
@@ -70,10 +75,16 @@ export default function StepsList({ pasos }: { pasos?: Paso[] }) {
         anchor: station.nombre_origen,
         line: normalizeLine,
         isTransbordo: true,
-        children: [station.nombre_destino]
+        children: [station.nombre_destino],
+        totalDistance: stepDistance,
+        totalTime: stepTime,
       };
     } else {
-      current?.children.push(station.nombre_destino);
+      if (current) {
+        current.children.push(station.nombre_destino);
+        current.totalDistance += stepDistance;
+        current.totalTime += stepTime;
+      }
     }
   });
 
@@ -108,19 +119,25 @@ export default function StepsList({ pasos }: { pasos?: Paso[] }) {
               justifyContent='space-between'
               sx={{ width: '100%' }}
             >
-              <Stack direction='row' alignItems='center' spacing={1}>
-                <div className={`step-line-item linea-${segment.line}`}>
-                  {segment.line}
-                </div>
-                <span>
-                  {segment.anchor}{' '}
-                  {segment.isTransbordo && (
-                    <span style={{ color: 'orange', fontWeight: 600 }}>
-                      - Transbordo
-                    </span>
-                  )}
+              <Stack direction='column' sx={{ flexGrow: 1 }}>
+                <Stack direction='row' alignItems='center' spacing={1}>
+                  <div className={`step-line-item linea-${segment.line}`}>
+                    {segment.line}
+                  </div>
+                  <span>
+                    {segment.anchor}{' '}
+                    {segment.isTransbordo && (
+                      <span style={{ color: 'orange', fontWeight: 600 }}>
+                        - Transbordo
+                      </span>
+                    )}
+                  </span>
+                </Stack>
+                <span style={{ fontSize: '0.85rem', color: '#555', marginLeft: '32px' }}>
+                  {segment.totalDistance.toFixed(2)} km · {segment.totalTime.toFixed(1)} min
                 </span>
               </Stack>
+
               {segment.children.length > 0 && (
                 open[index] ? <ExpandMoreIcon /> : <ExpandLessIcon />
               )}
@@ -135,8 +152,10 @@ export default function StepsList({ pasos }: { pasos?: Paso[] }) {
                   key={`${child}-${i}`}
                   sx={{ pl: 6 }}
                 >
-                  <ArrowRightAltIcon sx={{ fontSize: 18, mr: 1 }} />
-                  <ListItemText primary={child} />
+                  <Stack direction='row' alignItems='center' spacing={1} sx={{ width: '100%' }}>
+                    <div className={`step-line-vertical linea-${segment.line}`} />
+                    <ListItemText primary={child} />
+                  </Stack>
                 </ListItemButton>
               ))}
             </List>
