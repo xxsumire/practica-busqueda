@@ -1,11 +1,12 @@
 import '../../styles/SearchBar.css'
 import  { AccessTime as AccessTimeIcon,
-          Subway as SubwayIcon
+          Subway as SubwayIcon,
+          ArrowForward as ArrowForwardIcon
         } from '@mui/icons-material';
-import { Card, CardHeader, CardContent, Stack, Table,
-  TableBody, TableCell, TableContainer, TableRow, Paper
-
-} from '@mui/material';
+import {  Card, CardHeader, CardContent, Stack, Table,
+          TableBody, TableCell, TableContainer, TableRow, Paper,
+          Breadcrumbs
+       } from '@mui/material';
 
 interface ResultInterface {
   title?: string
@@ -24,11 +25,16 @@ export default function Result({
   origen,
 }: ResultInterface) {
 
-  console.log(time)
+  const normalizeLinea = (value: string) => {
+    if (/^[0-9]+$/.test(value)) {
+      return value.replace(/^0+/, '') || '0';
+    }
+    return value;
+  };
 
   return (
     <div className='resultado-container'>
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: '100%', padding: '1%' }}>
         <CardHeader
           title='Mejor resultado encontrado'
           avatar={
@@ -76,22 +82,22 @@ export default function Result({
             </TableContainer>
           </Stack>
 
-          <div>
-            {lineas?.map((e, index) => (
-              <>
-                <div 
-                  key={index}
-                  className={`line-item linea-${Number(e)}`}
-                >
-                  {e}
-                </div>
-                {index < lineas.length - 1 && (
-                  <div>
-                    {">"}
+          <div className='lines-result-box'>
+            <Breadcrumbs
+              separator={<ArrowForwardIcon fontSize='small'/>}
+            >
+              {lineas?.map((linea, index) => {
+                const normalized = normalizeLinea(String(linea));
+                return (
+                  <div 
+                    key={`${linea}-${index}`}
+                    className={`line-item linea-${normalized}`}
+                  >
+                    {normalized}
                   </div>
-                )}
-              </>
-            ))}
+                );
+              })}
+            </Breadcrumbs>
           </div>
         </CardContent>
       </Card>
