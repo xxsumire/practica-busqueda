@@ -22,11 +22,16 @@ type Paso = {
   costo_segundos: number
 }
 
+type LineaUsada = {
+  linea: string
+  orden: number
+}
+
 interface ResultInterface {
   title?: string
   time?: number,
   distancia?: number
-  lineas?: string[]
+  lineas?: LineaUsada[]
   transbordos?: number
   pasos?: Paso[]
 }
@@ -45,6 +50,9 @@ export default function Result({
     }
     return value;
   };
+  
+  // Ordenar las líneas por su atributo orden
+  const lineasOrdenadas = lineas ? [...lineas].sort((a, b) => a.orden - b.orden) : [];
 
   const origen = pasos && pasos.length > 0 ? pasos[0].nombre_origen : "—";
   const origenId = pasos && pasos.length > 0 ? pasos[0].estacion_origen : null;
@@ -153,7 +161,7 @@ export default function Result({
         </CardContent>
         {/* Muestra las líneas que recorre */}
         <PathBox
-          lineas={lineas}
+          lineas={lineasOrdenadas}
         />
         <StepsList
           pasos={pasos}
